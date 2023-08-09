@@ -1,0 +1,45 @@
+Selenium é um automatizador de tarefas no navegador, normalmente utilizado
+para testes do próprio software.
+
+driver é um executável que possui em cada navegador, uma versão para cada
+no caso. E um driver para cada sistema operacional.
+Então se está no mac utilizando chrome, é chamado de chrome/driver, se está
+no windows usando chrome é outro chrome/drive para windows.
+
+
+opera_options = webdriver.ChromeOptions()
+
+Aqui diz as configurações que vai serem passadas no chrome.
+Se for adicionar alguma configuração, ela será passada desta forma;
+
+chrome.options.add_argument('--headless')
+
+opera_service = Service()
+
+Este service, quer indicar qual o serviço irá utilzar o chrome driver.
+
+opera_browser = webdriver.Chrome()
+
+E o browser é o navegador em si.
+
+
+chrome_options = webdriver.ChromeOptions()
+chrome_service = Service(executable_path=str(CHROMEDRIVER_EXEC))
+chrome_browser = webdriver.Chrome(
+    service=chrome_service,
+    options=chrome_options,
+)
+
+A configuração básica será está.
+
+
+Quando isso foi usado:
+
+chrome_browser.get("https://www.google.com.br/")
+time.sleep(30)  # não fecha o browser tão rápido
+
+Lembre que normalmente o Selenium é usado para automatizar processos ou criar
+testes, e se estiver criando testes você não quer que ele fique com o navegador
+aberto por muito tempo, impedindo outros testes de ser executados,
+ele quer que ele abra e faça os testes que tem que fazer o mais rápido possível.
+Por isso o time.sleep() não é necessário.

@@ -1,0 +1,25 @@
+Normalmente em Selenium você irá selecionar o elemento que quer clicar via
+html, então é recomendável você selecionar o elemento por name ou id, que são
+únicos na pág.
+
+    search_input = WebDriverWait(browser, TIME_TO_WAIT).until(
+        EC.presence_of_element_located(By.NAME, "q")
+    )
+
+Nessas parte, estamos falando...
+
+search_input = 
+O webdriver irá esperar WebDriverWait((irá passar o webdriver), (tempo da espera)).
+Até a condição esperada acontecer until(EC.)
+A condição é "presença do elemento localizada na tela", e irá passar apenas uma
+condição que será a seleção do elemento (By.NAME, "q").
+
+Para enviar teclas com Selenium, é necessário usar 
+
+search_input.send_keys(Keys.ENTER)
+Mas lembre dos import, pois isso só é possível com import.
+
+    results = browser.find_element(By.ID, "search")
+    links = results.find_elements(By.TAG_NAME, "a") 
+
+Os links seleciona as tags a, e está fazendo isso, dentro de results.

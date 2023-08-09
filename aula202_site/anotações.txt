@@ -1,0 +1,34 @@
+Iremos servir o servidor de maneira local, como o google faz, mas claro, iremos
+fazer algo mais simples. E iremos servir este mesmo, com o python.
+
+Quando abrirmos o arquivo, usando "reveal in file explorer", depois clicarmos
+no index, o arquivo será aberto como "file:///" que são só arquivos abertos
+na nossa máquina, então não ocorre o prótocolo http.
+
+Para começarmos a criar um prótocolo http, iremos fazer o seguinte, com o
+python, iremos escrever "python -m http.server -d .\aula202_site\ 
+(número da porta)" O número da porta, pode ir de 3000, a 3999,
+ou pode colocar outros números, mas o "padrão" seria o 8000, porém, não pode 
+rodar dois prótocolo ao mesmo tempo. Os servidores "::" são servidores ipv6
+que estarão apontando para o seu localhost.
+
+Logo após isso, vá em seu navegador e escreva
+
+"localhost:(número da porta)" ou "127.0.0.1:(número da porta)"
+
+::ffff:127.0.0.1 - - [14/Jul/2023 16:58:17] "GET / HTTP/1.1" 200 -
+
+Ele a entrada, depois o horário, e depois qual foi o método, que no caso seria
+"GET" depois o recurso acessado que no caso foi "/" depois, qual foi o
+prótocolo que seria HTTP/1.1 e qual a resposta do servidor.
+
+::ffff:127.0.0.1 - - [14/Jul/2023 16:58:17] "GET /style.css HTTP/1.1" 200 -
+
+Depois procura o outro arquivo, usando o método get, o arquivo/recurso foi 
+"/style.css" e a resposta foi 200.
+
+::ffff:127.0.0.1 - - [14/Jul/2023 16:58:20] code 404, message File not found
+::ffff:127.0.0.1 - - [14/Jul/2023 16:58:20] "GET /favicon.ico HTTP/1.1" 404 -
+
+Neste aqui deu erro, mas esse aqui no caso seria o favicon, que é a foto do
+arquivo que abrimos.
