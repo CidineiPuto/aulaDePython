@@ -1,0 +1,33 @@
+só de fazer isto;
+        self.lineName.installEventFilter(self)
+
+o event filter já foi instalado. Event filter, é para mudar o evento de algo.
+
+    def eventFilter(self, watched: QObject, event: QEvent) -> bool:
+        return super().eventFilter(watched, event)
+
+Isso pega TODOS os eventos que estão ocorrendo no lineName por conta do
+        self.lineName.installEventFilter(self)
+
+
+Agora, olhe isto:
+
+from typing import cast
+    def eventFilter(self, watched: QObject, event: QEvent) -> bool:
+        if event.type() == QEvent.Type.KeyPress:
+            # Certeza que é key press.
+            event = cast(QKeyEvent, event)
+            print(event.text())
+        return super().eventFilter(watched, event)
+
+
+Ele está pegando as chaves clicadas pelo KeyPress, e foi usado o "cast"
+da importação de typing, lá, possui o cast que está trocando o event de
+QEvent, para "QKeyEvent". Pois é certeza que o evento é KeyPress.
+O cast não é recomendado usar sempre, apenas quando tiver realmente uma lógica.
+
+Sempre que pensar em alterar o arquivo gerado em UI, lembre que pode pesquisar
+em algum local, no google ou na doc, para ver se não tem outro modo de fazer
+determinada coisa, pois praticamente todas as coisas que imaginar em fazer lá
+naquele arquivo e possível fazer em seu próprio arquivo, usando coisas que existe
+no python, e no pyside. 
