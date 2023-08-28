@@ -1,0 +1,108 @@
+Se for fazer algo pesado na janela principal, por exemplo:
+    def hardWork1(self):
+        self.label1.setText("hardWork1 iniciado")
+        time.sleep(5)
+        self.label1.setText("hardWork1 terminado")
+
+O hardWork1 nem está sendo iniciado.
+
+class Worker1(QObject):
+    ...
+
+O Worker, que herda de QObject, ele é responsável por fazer trabalho.
+
+Pois, quando o trabalho for feito, será jogado para uma outra unidade de
+processamento para essa unidade (thread) que vai poder fazer os trabalhos
+separados da main thread.
+
+thread = Unidade básica de processamento.
+
+
+class Worker1(QObject):
+    started = Signal(str)
+    progressed = Signal(str)
+    finished = Signal(str)
+
+    def run(self):
+        value = "0"
+        self.started.emit(value)
+        for i in range(1, 5 + 1):
+            value = str(i)
+            self.progressed.emit(str(value))
+            time.sleep(1)
+        self.finished.emit(value)
+
+Desta maneira o worker está praticamente pronto. Caso quisesse criar outros
+métodos para fazer outras coisas e chamar eles dentro do run, poderia.
+Mas o método principal deste worker é o run.
+
+Então, está praticamente pronto, isso seria, criar uma classe que é um objeto
+do pyside e que vai fazer seu trabalho pesado.
+
+    def hardWork1(self):
+        worker = Worker1()
+        thread = QThread()
+
+
+        worker.moveToThread(thread)
+
+Agora, dentro do hardWork1, foi criado um worker e uma thread, primeiro,
+o worker foi movido para dentro da thread.
+Precisará se conectar no run, para iniciar no método, precisa conectar no quit
+para sair desse processo e outros passos.
+
+Primeiramente, a thread se conecta ao signal started;
+
+        thread.started.connect(worker.run)
+
+E será passado o método que você quer que seja executado.
+
+        worker.finished.connect(thread.quit)
+
+Quando o trabalho terminar, será conectado na thread um signal para sair.
+
+        thread.finished.connect(thread.deleteLater)
+        worker.finished.connect(worker.deleteLater)
+
+E esse último garante que quando a thread  e o worker terminar  irá deletar
+as coisas da memória.
+
+Após isso tudo, agora você pode começar a fazer as coisas no seu método, exemplo:
+
+        worker.started.connect(lambda: print("Worker iniciado"))
+        worker.progressed.connect(lambda: print("Em progresso"))
+        worker.finished.connect(lambda: print("Worker finalizado"))
+
+        thread.start()
+
+Porém, isso tudo irá dar um erro, para consertar ele, será necessário fazer o seguinte
+        self._worker = Worker1()
+        self._thread = QThread()
+        worker = self._worker
+        thread = self._thread
+
+
+Agora está tudo certo pois o python não está fechando o progresso, mas se apertar
+2 vezes no botão 1, o mesmo erro irá persistir, uma maneira de o contornar é
+fazer o seguinte;
+
+        worker.started.connect(self.worker1Starded)
+        worker.progressed.connect(self.worker1progressed)
+        worker.finished.connect(self.worker1finished)
+
+
+    def worker1Starded(self):
+        self.button1.setDisabled(True)
+        print("Worker iniciado")
+
+    def worker1progressed(self):
+        print("Em progresso")
+
+    def worker1finished(self):
+        self.button1.setDisabled(False)
+        print("Worker finalizado")
+
+Criando os métodos, e os chamando quando for iniciar na classe, poderá fazer
+com que o botão 1 for desativado, e só ativado quando ele terminar, assim
+nem um erro acontecerá.
+

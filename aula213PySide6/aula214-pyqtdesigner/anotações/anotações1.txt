@@ -1,4 +1,3 @@
-"""
 Caso dê errado em abrir o "designer.exe/designer.app" apenas vá nesse site:
 https://build-system.fman.io/qt-designer-download
 E baixe para o seu sistema.
@@ -48,4 +47,25 @@ pyside6-uic .\aula214-pyqtdesigner\ui\window.ui -o
 Será criado um arquivo python a partir do ui que foi utilizado.
 
 Toda hora que isso for feito, será necessário a recompilação.
-"""
+
+É recomendado NUNCA mexer no arquivo "window.py", no caso o arquivo criado pela
+Ui.
+
+Como sempre é recomendado nunca importar packages atrás do package principal.
+Para chamar só fazer isso:
+
+from PySide6.QtWidgets import QApplication, QMainWindow
+from window import Ui_MainWindow
+
+
+class MainWindow(QMainWindow, Ui_MainWindow):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setupUi(self)
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    mainWindow = MainWindow()
+    mainWindow.show()
+    app.exec()
