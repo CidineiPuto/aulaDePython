@@ -1,0 +1,32 @@
+Existe o execute e o executemany
+
+cursor.execute('')
+cursor.executemany('')
+
+O many no caso, executa vários, diferente do execute normal que executa apenas um.
+
+Para executar mais de um insert;
+
+cursor.execute(
+    f"INSERT INTO {TABLE_NAME}"
+    "(id, name, weight) "
+    "VALUES "
+    "(NULL, 'Jão Henrique', '54'), "
+    "(NULL, 'Stefane Vitória', '50')"
+)
+
+É exatamente igual ao script de um código do mysql.
+
+E é claro, nunca esqueça de fazer delete sem where;
+
+cursor.execute(f"DELETE FROM {TABLE_NAME}")
+
+
+Além do mais, para voltar do 0 a contagem da sequência se não tiver nenhum núm
+na tabela, faça o seguinte;
+
+cursor.execute(f'DELETE FROM sqlite_sequence WHERE name="{TABLE_NAME}"')
+
+Isso é útil se a tabela sempre estiver sendo "recarregada"
+
+Também CUIDADO com sql injection quando tiver recebendo valores do usuário.

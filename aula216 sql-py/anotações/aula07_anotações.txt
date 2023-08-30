@@ -1,0 +1,15 @@
+Lembre de sempre fechar suas consultas;
+
+if __name__ == "__main__":
+    print(sql)
+
+    cursor.close()
+    connection.close()
+
+E também, feche nos outros módulos.
+
+cursor.close()
+connection.close()
+
+Agora, sempre que importar um módulo, terá que fechar o outro módulo, o que
+seria o certo a se fazer.

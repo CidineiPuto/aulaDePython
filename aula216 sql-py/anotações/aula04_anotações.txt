@@ -1,0 +1,30 @@
+Quando manda os valores junto aos valores sql, tem a chance 
+Para separar, primeiro coloque;
+
+sql = (
+f"INSERT INTO {TABLE_NAME} " 
+    "(name, weight) " 
+    "VALUES " 
+    "(?, ?)" 
+)
+
+Assim, ele espera ser passado um valor ainda.
+E o nome desses números seria bindings.
+
+
+cursor.execute(sql, ["Joana", 4])
+
+E agora, só passar no cursor execute o resto.
+Agora não permite que a pessoa escreve no comando.
+
+Se quisermos inserir mais de um valor agora, só usar execute many.
+
+cursor.executemany(sql, (("Joana", 4), ("Luiz", 5)))
+
+E também pode ser usado com dictionary
+
+sql = f"INSERT INTO {TABLE_NAME}" "(name, weight) " "VALUES " "(:name, :weight)"
+
+cursor.execute(sql, {"name": "joana", "weight": 4})
+
+

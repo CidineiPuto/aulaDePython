@@ -1,0 +1,17 @@
+Pense nisso;
+
+SQ lite    Arquivo
+Servidor > Base de dados > tabelas > colunas
+
+
+cursor.execute(
+    f"CREATE TABLE IF NOT EXISTS {TABLE_NAME}"
+    "("
+    "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+    "name TEXT,"
+    "weight REAL"
+    ")"
+)
+connection.commit()
+
+O cursor executa os dados, e cria as tabelas, a connection já utiliza o commit.

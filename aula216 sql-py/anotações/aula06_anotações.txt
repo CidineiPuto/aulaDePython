@@ -1,0 +1,8 @@
+Sempre é bom lembrar de fazer commits após fazer algo que será adicionado ou alterado
+na base de dados.
+
+Existe algo chamado CRUD;
+CRUD = Create Read Update Delete
+No SQL seria;
+SQL = Create/Insert Read/Select Update/Update Delete/Delete
+

@@ -1,0 +1,44 @@
+for row in cursor.fetchall():
+    print(row)
+    # _id, name, weight = row
+    # print(_id, name, weight)
+
+fetchall seria tudo que possui na tabela, então, a "row" executa e mostra na tela
+o que está sendo executado, no "print(row)". Afinal, seria a linha da tabela.
+
+for row in cursor.fetchall():
+    _id = row[0]
+    name = row[1]
+    weight = row[2]
+    print(_id, name, weight)
+
+Agora, aqui pega separadamente cada um.
+
+for row in cursor.fetchall():
+    _id, name, weight = row
+    print(_id, name, weight)
+
+Essa é a forma mais simples. Também, por conta de estar pegando "fetchall" por isso
+está pegando todos os valores.
+Estamos desempacotando isto.
+
+Então caso queira apenas um registro;
+
+cursor.execute(f"SELECT * FROM {TABLE_NAME} LIMIT 2")
+
+row = cursor.fetchone()
+print(row)
+
+ou;
+
+cursor.execute(f"SELECT * FROM {TABLE_NAME} WHERE id = 3")
+
+row = cursor.fetchone()
+_id, name, weight = row
+print(_id, name, weight)
+
+
+Além disso o cursor acaba, por isso precisa fazer a quantidade de select na
+quantidade de rows que quer.
+
+E também caso queira pode criar outro cursor.

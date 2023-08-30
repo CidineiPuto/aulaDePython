@@ -1,0 +1,22 @@
+DOC DO SQLITE3 = https://www.sqlite.org/doclist.html
+
+É recomendado em base de dados maiores que acontecem mais de uma coisa por vez
+usar o "MySql" ou algom mais potente. Mas se for algo mais simples que acontece
+só uma ação por vez, pode se usar o "Sqlite".
+
+Se o foco é muita coisa, use apenas algo mais forte.
+Se quiser apenas 1 conexão, pode se usar o Sqlite
+
+
+# connection ou con
+connection = sqlite3.connect(DB_FILE)
+cursor = connection.cursor()
+
+# SQL
+
+cursor.close()
+connection.close()
+
+
+Connection e cursor sempre será os primeiros a ser executados. No meio podemos
+colocar o código, e no final colocar o "close()" para fechar o processo de ambos.
