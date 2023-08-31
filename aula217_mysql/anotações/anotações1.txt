@@ -1,0 +1,13 @@
+Para iniciar e subir o docker só colocar
+
+docker-compose up
+
+Logo depois disso, pode apertar "ctrl c" ao ver que a conexão está prestando.
+Depois coloque "docker-compose up -d" para subir.
+Mas se quiser fechar só colocar;
+"docker container stop (nome do container, exemplo "a62")"
+
+Se quiser começar de novo;
+
+"docker container start a62" ou "docker start a62".
+
