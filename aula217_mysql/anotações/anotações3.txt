@@ -1,0 +1,27 @@
+Primeira coisa precisamos da nossa conexão;
+
+connection = pymysql.connect(
+    host="",
+    user="",
+    password="",
+    database="",
+)
+
+host é aonde estamos procurando a base de dados, seria o "localhost".
+O user root é só para caso tenha que fazer algo bem específico na database,
+o user é qual usuario vai ser usado, password é qual senha será usada
+e a base de dados é a data_base que seria a base de dados sendo usada.
+
+Lembre que quando abrir uma conexão tem que fechar ela com;
+
+"connection.close()"
+
+Também temos que abrir e fechar o cursor.
+cursor = connection.cursor()
+
+cursor.close().
+
+Tanto a conexão tanto o cursor são contact manager, por conta de um method chamado
+__enter__ e __exit__.
+
+Assim já é fechado a connection e o  cursor automaticamente.

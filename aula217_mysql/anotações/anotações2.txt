@@ -1,0 +1,27 @@
+Sobre variáveis de sistema;
+
+Na aula aonde está o que você quer amarzenar de maneira segura, coloque
+".env", e ".env-example", já que se a pessoa chegar no seu arquivo, irá ver apenas
+o example.
+O .env não irá para o git, apenas o .env-example.
+
+
+lá no docker-compose.yml iremos colocar;
+
+version: '3.9'
+services:
+  mysql_217:
+    env_file:
+      - .env
+
+O example  vai ser público, mas o .env como dito não, pois é o real aonde guardará
+as informações.
+
+No .env-example, os arquivos para ser modificados estarão como "CHANGE-ME".
+
+No docker, a parte do sistema ficará assim;
+
+    environment:
+      TZ: America/Sao_Paulo
+
+Mostrando apenas o fuso horário.

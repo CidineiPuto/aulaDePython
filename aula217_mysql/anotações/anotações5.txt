@@ -1,0 +1,17 @@
+Usualmente, bem raramente iremos criar uma tabela na base de dados no caso
+quando formos trabalhar em empresas e etc.
+
+Em várias ocasiões usariámos commit para fechar um progresso, pois se der algum erro
+poderemos voltar atrás e tals TODAVIA isso será diferente no CREATE TABLE;
+
+        cursor.execute(
+            "CREATE TABLE customers ("
+            "id INT NOT NULL AUTO_INCREMENT, "
+            "nome VARCHAR(50) NOT NULL, "
+            "idade INT NOT NULL, "
+            "PRIMARY KEY (id)"
+            ") "
+        )
+
+Estamos criando uma tabela, por isso não iria precisar de commit, pois uma vez
+que ela foi criada, não tem como voltar atrás

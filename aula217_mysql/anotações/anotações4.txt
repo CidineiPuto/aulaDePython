@@ -1,0 +1,20 @@
+Quando formos alterar coisas na conexão é recomendado alterarmos apenas o .env
+e por isso, podemos usar a pip do python "python-dotenv" justamente para isso,
+colocando as informações ligadas todas ao ".env".
+
+import os
+
+import dotenv
+import pymysql
+
+dotenv.load_dotenv()
+
+connection = pymysql.connect(
+    host=os.environ["MYSQL_HOST"],
+    user=os.environ["MYSQL_USER"],
+    password=os.environ["MYSQL_PASSWORD"],
+    database=os.environ["MYSQL_DATABASE"],
+)
+
+Fazendo exatamente isso acima. Usando o os, para pegar os ambientes do sistema,
+claro que só foram importados por conta do "dotenv.load_dotenv()"
