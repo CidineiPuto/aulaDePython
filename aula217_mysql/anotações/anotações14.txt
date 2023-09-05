@@ -1,2 +1,133 @@
 As vezes você vai trabalhar num volume muito grande de dados, e não consegue
 salvar isso na memória do seu computador.
+
+Nesse momento, estamos usando o cursor de dictionary.
+
+    import pymysql.cursors
+
+
+    connection = pymysql.connect(
+        cursorclass=pymysql.cursors.DictCursor,
+    )
+
+
+Um exemplo, é que temos o cursor.fetchall()
+
+        data_for = cursor.fetchall()
+
+        print("For 1: ")
+        for row in data_for:  # type: ignore
+            print(row)
+
+        print()
+        print("For 2: ")
+        for row in data_for:  # type: ignore
+            print(row)
+
+Se for feito dessa forma, o cursor irá rolar normalmente nos dois fors, porém...
+
+
+        for row in cursor.fetchall():  # type: ignore
+            print(row)
+
+        for row in cursor.fetchall():  # type: ignore
+            print(row)
+
+
+Ele irá parar no primeiro for, no último iterável. E por isso, não irá executar
+o segundo.
+
+Existe o cursor.scroll()
+Ele é relativo conforme a posição atual.
+
+        for row in cursor.fetchall():  # type: ignore
+            print(row)
+
+        cursor.scroll(-1)
+        for row in cursor.fetchall():  # type: ignore
+            print(row)
+
+Com o cursor -1 como um scroll normal de mouse, ele irá voltar para o último
+iterável daquela lista, no caso, o do id 10, e se colocar -2, ele irá voltar 
+2 linhas, e por aí vai.
+
+E se quiser, pode por exemplo, voltar duas casas colocando em;
+
+cursor.scoll(-2)
+
+E avançar uma
+
+cursor.scroll(1)
+
+Mas possui um outro modo que pode utilizar.
+
+Ou, ao invés de pegar o relativo, pode pegar o absoluto, que se pegar ele, irá vir
+todos os dados, porém dependendo do que coloca, irá pular algum dado, ex;
+
+cursor.scroll(1, "absolute")
+
+Agora, a partir do índice 1 irá ser executado o código.
+
+Por isso ao invés de copiar vários e vários dados em um exemplo de que você tenha gigas
+de dados, é bem melhor você usar o scroll.
+
+Outra coisa boa, é usar o unbuffered cursor, ele irá ler os dados a medida
+que for precisando dele.
+
+No caso, o SScursor/unbuffered é algo que é bem recomendável caso sua consulta
+tiver vários gigas, ou/e sua conexão for bastante lenta.
+
+Ao invés dele conectar cada linha a um buffer(memória) ele irá buscar as linhas
+conforme você for precisando, assim o cliente(computador) usa menos memórias.
+
+Porém existe limitações, não é possível saber o total de linhas se não rolar
+por todas elas, e não é possível voltar para o scroll 0 por exemplo.
+
+Quando for pegar o cursor, terá que pegar o SSDictCursor
+
+    import pymysql.cursors
+
+
+    connection = pymysql.connect(
+        cursorclass=pymysql.cursors.SSDictCursor,
+    )
+
+Quando o fetch for feito, será executado um "fetch_unbufferred";
+
+        print("For 1: ")
+        for row in cursor.fetchall_unbuffered():  # type: ignore
+            print(row)
+
+            if row["id"] >= 5:
+                break
+
+        print()
+        print("For 2: ")
+        for row in cursor.fetchall_unbuffered():  # type: ignore
+            print(row)
+    connection.commit()
+
+Agora, ele será quebrado se o id for igual a 5, e logo por conta de ser um generator
+o cursor irá continuar no outro for, o que é algo bem eficaz.
+
+Agora, se colocar por exemplo cursor.scroll(1) irá dar certo e ele vai pular um valor
+
+        cursor.scroll(1)
+        for row in cursor.fetchall_unbuffered():  # type: ignore
+            print(row)
+
+Porém se tentar colocar cursor.scroll(-1)
+
+Irá levantar um erro.
+
+Aliás para parar de dar erro relacionado ao cursor, iremos fazer um type cast
+
+connection = pymysql.connect(
+    cursorclass=pymysql.cursors.DictCursor,
+)
+
+
+from typing import cast
+
+    with connection.cursor() as cursor:
+        cursor = cast(pymysql.cursors.DictCursor, cursor)

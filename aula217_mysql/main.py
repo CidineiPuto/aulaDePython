@@ -3,12 +3,14 @@
 # Pypy: https://pypi.org/project/pymysql/
 # GitHub: https://github.com/PyMySQL/PyMySQL
 import os
+from typing import cast
 
 import dotenv
 import pymysql
 import pymysql.cursors
 
 TABLE_NAME = "customers"
+CURRENT_CURSOR_CLASS = pymysql.cursors.DictCursor
 
 dotenv.load_dotenv()
 
@@ -17,7 +19,7 @@ connection = pymysql.connect(
     user=os.environ["MYSQL_USER"],
     password=os.environ["MYSQL_PASSWORD"],
     database=os.environ["MYSQL_DATABASE"],
-    cursorclass=pymysql.cursors.DictCursor,
+    cursorclass=CURRENT_CURSOR_CLASS,
 )
 
 
@@ -116,7 +118,7 @@ with connection:
         sql = f"SELECT * FROM {TABLE_NAME} WHERE id BETWEEN %s AND %s "
 
         cursor.execute(sql, (menor_id, maior_id))  # type: ignore
-        # print(cursor.mogrify(sql, (menor_id, maior_id)))  # type: ignore
+        # print(cursor.mogrify(sql, (menor_id, maior_id)))
         data_select = cursor.fetchall()  # type: ignore
 
         # for row in data_select:
@@ -137,20 +139,23 @@ with connection:
 
         cursor.execute(f"SELECT * FROM {TABLE_NAME}")  # type: ignore
 
-        # for row in cursor.fetchall():  # type: ignore
+        # for row in cursor.fetchall():
         #     print(row)
 
     # Atualizando com UPDATE, WHERE e placeholders no PyMySQL
 
     with connection.cursor() as cursor:
+        cursor = cast(CURRENT_CURSOR_CLASS, cursor)
+
         # CUIDADO com UPDATE sem WHERE
 
         sql = f"UPDATE {TABLE_NAME} SET nome = %s, idade = %s WHERE id = %s"
 
-        code = cursor.execute(sql, ("Aela", 102, 2))  # type: ignore
+        code = cursor.execute(sql, ("Aela", 102, 2))
 
-        cursor.execute(f"SELECT * FROM {TABLE_NAME}")  # type: ignore
+        cursor.execute(f"SELECT * FROM {TABLE_NAME}")
 
-        for row in cursor.fetchall():  # type: ignore
+        for row in cursor.fetchall():
             print(row)
-connection.commit()
+
+    connection.commit()
