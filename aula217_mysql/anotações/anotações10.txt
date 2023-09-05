@@ -1,0 +1,33 @@
+O select não precisa ser comitado, já que está sendo usado apenas para ler algo
+na base de dados.
+
+Quando for fazer o commit, tenha certeza de que o que você fez está certo,
+pois antes de fazer o commit tem como voltar e desfazer o que você fez.
+
+Primeiro, caso queira pegar apenas um valor de todos os valores, faça isso;
+
+        sql = f"SELECT * FROM {TABLE_NAME} "  # select id, nome, idade
+        cursor.execute(sql)  # type: ignore
+        data_select = cursor.fetchone()
+        print(data_select)
+
+Agora se quiser ver todos;
+
+        data_select = cursor.fetchall()  # type: ignore
+
+        for row in data_select:
+            print(row)
+
+ou
+
+        for row in cursor.fetchall: # type: ignore
+            print(row)
+
+
+Porém dessa forma vem como um iterador, e não tem como puxar mais, por isso é mais
+recomendável usar o de cima, se for para puxar os dados mais de uma vez.
+
+E isso é uma tupla de tuplas, tupla é um valor imutável então não é possível modificar
+esses dados de maneira como exemplo;
+
+data_select[1] = 1

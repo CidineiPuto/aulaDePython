@@ -14,4 +14,16 @@ poderemos voltar atrás e tals TODAVIA isso será diferente no CREATE TABLE;
         )
 
 Estamos criando uma tabela, por isso não iria precisar de commit, pois uma vez
-que ela foi criada, não tem como voltar atrás
+que ela foi criada, não tem como voltar atrás.
+
+        cursor.execute(
+            "CREATE TABLE IF NOT EXISTS customers ("
+            "id INT NOT NULL AUTO_INCREMENT, "
+            "nome VARCHAR(50) NOT NULL, "
+            "idade INT NOT NULL, "
+            "PRIMARY KEY (id)"
+            ") "
+        )
+
+Com o CREATE TABLE IF NOT EXISTS, faz com que nenhum erro aconteça na execução
+do código.

@@ -1,0 +1,15 @@
+O sql injection pode rolar também no select.
+
+Então por isso se for receber alguma coisa do usuário, é recomendável
+fazer o seguinte;
+
+        id_recebido = input("Digite um id aí seu nerd: ")
+        sql = f"SELECT * FROM {TABLE_NAME} WHERE id = %s "
+
+        cursor.execute(sql, (id_recebido,))  # type: ignore
+        print(cursor.mogrify(sql, (id_recebido,)))
+
+
+Mogrify no caso é um teste para ver como isso ficará. Mas enfim, isso
+está sendo feito de maneira segura agora por conta do %s que só está sendo passado
+depois.

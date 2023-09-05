@@ -1,0 +1,2 @@
+As vezes você vai trabalhar num volume muito grande de dados, e não consegue
+salvar isso na memória do seu computador.

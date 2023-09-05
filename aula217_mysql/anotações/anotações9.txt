@@ -1,0 +1,33 @@
+OS argumentos que vier no executemany, tem que ser dicionário ou iterável, ex
+
+dicionário;
+
+        sql = (
+            f"INSERT INTO {TABLE_NAME} "
+            "(nome, idade) "
+            "VALUES (%(name)s, %(age)s) "  # Add partes do dictionary
+        )
+        data_dict2 = (
+            {"name": "Letícia", "age": 27},
+            {"name": "Vinícius", "age": 15},
+            {"name": "Sarah", "age": 33},
+            {"name": "Luiz", "age": 24},
+        )
+
+
+Tupla;
+
+
+    with connection.cursor() as cursor:
+        sql = (
+            f"INSERT INTO {TABLE_NAME} "
+            "(nome, idade) "
+            "VALUES (%s, %s) "  # Add partes do dictionary
+        )
+        data_touple = (
+            ("Siri", 29),
+            ("Maicon", 13),
+            ("Jorge", 72),
+            ("Anízio", 99),
+        )
+

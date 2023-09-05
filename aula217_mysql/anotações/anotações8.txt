@@ -1,0 +1,15 @@
+Lembre de nunca deixar o insert exatamente no comando, para não ter chance da
+pessoa colocar um código no lugar em que pode acontecer um sql injection;
+
+    with connection.cursor() as cursor:
+        sql = f"INSERT INTO {TABLE_NAME} (nome, idade) VALUES (%s, %s) "
+        result = cursor.execute(sql, ("Luiz", 25))  # type: ignore
+
+E é feito dessa forma, o %s deixa em vazio, para que os valores sejam enviados
+depois, assim, eles tratam os valores diferente dos comandos.
+
+E para ficar mais organizado, podemos fazer o seguinte;
+
+        sql = f"INSERT INTO {TABLE_NAME} (nome, idade) VALUES (%s, %s) "
+        data = ("Luiz", 18)
+        result = cursor.execute(sql, data)  # type: ignore

@@ -1,0 +1,68 @@
+Caso queira, pode adicionar o "CHARSET" na connection;
+
+connection = pymysql.connect(
+    host=os.environ["MYSQL_HOST"],
+    user=os.environ["MYSQL_USER"],
+    password=os.environ["MYSQL_PASSWORD"],
+    database=os.environ["MYSQL_DATABASE"],
+    charset='utf8mb4'
+)
+
+charset ou character-set, é localizado na parte do command;
+
+    command:
+      - --authentication-policy=mysql_native_password
+      - --character-set-server=utf8mb4
+
+character-set-server, lá está a codificação usada.
+
+
+Na conexão;
+with connection:
+    with connection.cursor() as cursor:
+        cursor.execute(...)
+
+Não pode usar ela duas vezes seguidas, como exemplo;
+
+with connection:
+    with connection.cursor() as cursor:
+        cursor.execute(...)
+
+with connection:
+    with connection.cursor() as cursor:
+        cursor.execute(...)
+
+
+Afinal, ela já foi fechada, porém, isso pode ser feito com o cursor;
+
+with connection:
+    with connection.cursor() as cursor:
+        cursor.execute(...)
+    with connection.cursor() as cursor:
+        cursor.execute(...)
+
+E por isso caso queira dividir melhor o cursor, pode fechar com connection.commit()
+e usando mais de um cursor;
+
+
+ex;
+
+    with connection.cursor() as cursor:
+        cursor.execute(...)
+    connection.commit()
+    with connection.cursor() as cursor:
+        cursor.execute(...)
+    connection.commit()
+
+
+Existe algo chamado result, que seria o número de linhas afetadas no comando.
+
+        result = cursor.execute(  # type: ignore
+            f"INSERT INTO {TABLE_NAME} (nome, idade) VALUES('LUIZ', 25) "
+        )
+
+Existe algo chamado;
+
+        cursor.execute(f"TRUNCATE TABLE {TABLE_NAME}")
+
+Ele limpa a tabela, e também faz um restart na contagem.

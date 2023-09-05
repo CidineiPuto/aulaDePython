@@ -1,0 +1,17 @@
+Olhe isto;
+
+    with connection.cursor() as cursor:
+        sql = f"DELETE FROM {TABLE_NAME}"
+
+        cursor.execute(sql)
+
+        cursor.execute(f"SELECT * FROM {TABLE_NAME}")  # type: ignore
+
+        for row in cursor.fetchall():  # type: ignore
+            print(row)
+
+Por conta de não ter feito o commit, isso não irá ocorrer, porém, será possível
+ver no select como iria ficar a base de dados se esse delete ocorresse, por isso
+muitas vezes é melhor certificar algo antes de ser feito o DELETE.
+
+E claro, para alterar as linhas tem que ser executado o commit.
